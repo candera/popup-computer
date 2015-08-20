@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <script type='text/javascript' src='target/main.js'></script>
+  </head>
+  <body>
+    <h1>1st VFW Popup Attack Calculator (Beta)</h1>
+    <img width="300" src="diagram.png" />
+    <table>
+      <tr>
+        <td><label>Attack heading:</label></td>
+        <td><input id="attack-heading" type="text" /></td>
+        <td>degrees</td>
+      </tr>
+      <tr>
+        <td><label>Speed:</label></td>
+        <td><input id="speed" type="text" /></td>
+        <td>kts</td>
+      </tr>
+      <tr>
+        <td><label>Turn G:</label></td>
+        <td><input id="turn-g" type="text" /></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><label>Climb angle:</label></td>
+        <td><input id="climb-angle" type="text" /></td>
+        <td>degrees</td>
+      </tr>
+      <tr>
+        <td><label>Dive angle:</label></td>
+        <td><input id="turn-g" type="text" /></td>
+        <td>degrees</td>
+      </tr>
+      <tr>
+        <td><label>Target to VRP heading:</label></td>
+        <td><input id="tgt-to-vrp-heading" type="text" /></td>
+        <td>degrees</td>
+      </tr>
+      <tr>
+        <td><label>Target to VRP distance:</label></td>
+        <td><input id="tgt-to-vrp-distance" type="text" /></td>
+        <td>nm</td>
+      </tr>
+      <tr>
+        <td><label>VRP to PUP distance:</label></td>
+        <td><input id="vrp-to-pup-distance" type="text"  /></td>
+        <td>nm</td>
+      </tr>
+      <tr>
+        <td><label>Release altitude:</label></td>
+        <td><input id="release-altitude" type="text"  /></td>
+        <td>feet AGL</td>
+      </tr>
+      <tr>
+        <td><label>Tracking time:</label></td>
+        <td><input id="release-altitude" type="text"  /></td>
+        <td>seconds</td>
+      </tr>
+    </table>
+    <button onclick="org.craigandera.popup_computer.compute();">Compute!</button>
+    <div id="output"></pre>
+  </body>
+</html>
