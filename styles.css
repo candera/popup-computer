@@ -1,0 +1,12 @@
+.ufc-screen {
+    background-color: black;
+    color: yellow;
+    display: inline-block;
+    margin: 4px;
+    padding: 0 7px 4 7px;
+}
+
+.ufc-screen table {
+    color: yellow;
+}
+

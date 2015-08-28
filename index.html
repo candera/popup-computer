@@ -1,63 +1,243 @@
 <html>
   <head>
     <script type='text/javascript' src='target/main.js'></script>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <h1>1st VFW Popup Attack Calculator (Beta)</h1>
     <img width="300" src="diagram.png" />
     <table>
       <tr>
-        <td><label>Attack heading:</label></td>
-        <td><input id="attack-heading" type="text" /></td>
-        <td>degrees</td>
-      </tr>
-      <tr>
-        <td><label>Speed:</label></td>
-        <td><input id="speed" type="text" /></td>
-        <td>kts</td>
-      </tr>
-      <tr>
-        <td><label>Turn G:</label></td>
-        <td><input id="turn-g" type="text" /></td>
+        <td><img src="help.png" title="The steerpoint where the target is located." /></td>
+        <td><label>Target steerpoint:</label></td>
+        <td>
+          <input id="target-steerpoint" type="text" value="3"
+                   oninput="org.craigandera.popup_computer.main.compute();"/>
+        </td>
         <td></td>
       </tr>
       <tr>
-        <td><label>Climb angle:</label></td>
-        <td><input id="climb-angle" type="text" /></td>
-        <td>degrees</td>
+        <td><img src="help.png" title="The altitude of the target above sea level." /></td>
+        <td><label>Target altitude:</label></td>
+        <td>
+          <input id="target-altitude" type="text" value="0"
+                   oninput="org.craigandera.popup_computer.main.compute();"/>
+        </td>
+        <td>feet MSL</td>
       </tr>
       <tr>
-        <td><label>Dive angle:</label></td>
-        <td><input id="turn-g" type="text" /></td>
-        <td>degrees</td>
-      </tr>
-      <tr>
-        <td><label>Target to VRP heading:</label></td>
-        <td><input id="tgt-to-vrp-heading" type="text" /></td>
-        <td>degrees</td>
-      </tr>
-      <tr>
-        <td><label>Target to VRP distance:</label></td>
-        <td><input id="tgt-to-vrp-distance" type="text" /></td>
-        <td>nm</td>
-      </tr>
-      <tr>
-        <td><label>VRP to PUP distance:</label></td>
-        <td><input id="vrp-to-pup-distance" type="text"  /></td>
-        <td>nm</td>
-      </tr>
-      <tr>
-        <td><label>Release altitude:</label></td>
-        <td><input id="release-altitude" type="text"  /></td>
+        <td><img src="help.png" title="The altitude at which the run in to the target will be made. Assumes that the ground at ingress is the same altitude as the target." /></td>
+        <td><label>Ingress altitude:</label></td>
+        <td>
+          <input id="ingress-altitude" type="text" value="200"
+                   oninput="org.craigandera.popup_computer.main.compute();"/>
+        </td>
         <td>feet AGL</td>
       </tr>
       <tr>
+        <td><img src="help.png" title="The speed at which the attack profile will be run." /></td>
+        <td><label>Speed:</label></td>
+        <td>
+          <input id="speed" type="text" value="500"
+                 oninput="org.craigandera.popup_computer.main.compute();"/>
+        </td>
+        <td>kts</td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="The mach at which the attack profile will be run. Computed from the speed and altitude." /></td>
+        <td><label>Mach:</label></td>
+        <td>
+          <label id="mach">xxxx</label>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="The turn G at which all turns in the profile will be made." /></td>
+        <td><label>Turn G:</label></td>
+        <td>
+          <input id="turn-g" type="text" value="3.0"
+                 oninput="org.craigandera.popup_computer.main.compute();"/>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="The turn radius of all turns. Computed from altitude and mach." /></td>
+        <td><label>Turn radius:</label></td>
+        <td>
+          <label id="turn-radius">xxxx</label>
+        </td>
+        <td>feet</td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="The heading at which the aircraft will roll out before release." /></td>
+        <td><label>Attack heading:</label></td>
+        <td>
+          <input id="attack-heading" type="text" value="270"
+                 oninput="org.craigandera.popup_computer.main.compute();"/>
+        </td>
+        <td>degrees</td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="The desired angle at which to climb to the pull-down point." /></td>
+        <td><label>Climb angle:</label></td>
+        <td>
+          <input id="climb-angle" type="text" value="25"
+                 oninput="org.craigandera.popup_computer.main.compute();"/>
+        </td>
+        <td>degrees</td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="The angle at which the diving attack will be made. Currently assumes that the FPM will be pointed directly at the target - subtract a few degrees from this to get a bit of aim-off distance." /></td>
+        <td><label>Dive angle:</label></td>
+        <td>
+          <input oninput="org.craigandera.popup_computer.main.compute();"
+                 id="dive-angle" type="text" value="20" />
+        </td>
+        <td>degrees</td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="Distance between the VRP and the PUP." /></td>
+        <td><label>VRP to PUP distance:</label></td>
+        <td>
+          <input oninput="org.craigandera.popup_computer.main.compute();"
+                 id="vrp-to-pup-distance" type="text" value="1.0" />
+        </td>
+        <td>nm</td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="Desired turn amount and direction at PUP." /></td>
+        <td><label>Heading change at pop-up point:</label></td>
+        <td>
+          <input
+             oninput="org.craigandera.popup_computer.main.compute();"
+             id="pop-up-turn-amount" type="text" value="45" />
+        </td>
+        <td>degrees</td>
+        <td>
+          <select id="pop-up-turn-direction"
+                  onchange="org.craigandera.popup_computer.main.compute();">
+            <option value="right">right</option>
+            <option value="left">left</option>
+          </selectd>
+        </td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="Desired turn amount and direction at pull-down." /></td>
+        <td><label>Heading change during pull down:</label></td>
+        <td>
+          <input
+             oninput="org.craigandera.popup_computer.main.compute();"
+             id="pull-down-turn-amount" type="text" value="90" />
+        </td>
+        <td>degrees</td>
+        <td>
+          <select id="pull-down-turn-direction"
+                  onchange="org.craigandera.popup_computer.main.compute();">
+            <option value="left">left</option>
+            <option value="right">right</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="The altitude at which weapons release will happen." /></td>
+        <td><label>Release altitude:</label></td>
+        <td>
+          <input oninput="org.craigandera.popup_computer.main.compute();"
+                 id="release-altitude" type="text" value="2000" />
+        </td>
+        <td>feet AGL</td>
+      </tr>
+      <tr>
+        <td><img src="help.png" title="How long to spend aligning after rolling out from the pull-down." /></td>
         <td><label>Tracking time:</label></td>
-        <td><input id="release-altitude" type="text"  /></td>
+        <td><input
+               oninput="org.craigandera.popup_computer.main.compute();"
+               id="tracking-time" type="text" value="2.0"/></td>
         <td>seconds</td>
       </tr>
     </table>
-    <button onclick="org.craigandera.popup_computer.compute();">Compute!</button>
-    <div id="output"></pre>
+    <!--
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M50,50 L100,100" style="stroke:#660000; fill:none;"/>
+      </svg>
+      -->
+    <div id="output">
+      <div id="tgt-to-vrp" class="ufc-screen">
+        <p class="heading">TGT-TO-VRP</p>
+        <table>
+          <tr><td>TGT</td><td class="tgt" id="tgt-to-vrp-tgt">X</td></tr>
+          <tr><td>TBRG</td><td class="tbrg" id="tgt-to-vrp-brg">XX.X</td></tr>
+          <tr><td>RNG</td><td class="rng" id="tgt-to-vrp-rng">XXXXXX</td></tr>
+          <tr><td>ELEV</td><td class="elev" id="tgt-to-vrp-elev">XXXXXX</td></tr>
+        </table>
+      </div>
+      <div id="tgt-to-pup" class="ufc-screen">
+        <p class="heading">TGT-TO-PUP</p>
+        <table>
+          <tr><td>TGT</td><td class="tgt" id="tgt-to-pup-tgt">X</td></tr>
+          <tr><td>TBRG</td><td class="tbrg" id="tgt-to-pup-brg">XX.X</td></tr>
+          <tr><td>RNG</td><td class="rng" id="tgt-to-pup-rng">XXXXXX</td></tr>
+          <tr><td>ELEV</td><td class="elev" id="tgt-to-pup-elev">XXXXXX</td></tr>
+        </table>
+      </div>
+      <div id="dest-oa1" class="ufc-screen">
+        <p class="heading">DEST OA1 <span class="steerpoint" id="oa1-stpt">X</span></p>
+        <table>
+          <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>TBRG</td><td class="tbrg" id="oa1-brg">XX.X</td></tr>
+          <tr><td>RNG</td><td class="rng" id="oa1-rng">XXXXXX</td></tr>
+          <tr><td>ELEV</td><td class="elev" id="oa1-elev">XXXXXX</td></tr>
+        </table>
+      </div>
+      <div id="dest-oa2" class="ufc-screen">
+        <p class="heading">DEST OA2 <span class="steerpoint" id="oa2-stpt">X</span></p>
+        <table>
+          <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>TBRG</td><td class="tbrg" id="oa2-brg">XX.X</td></tr>
+          <tr><td>RNG</td><td class="rng" id="oa2-rng">XXXXXX</td></tr>
+          <tr><td>ELEV</td><td class="elev" id="oa2-elev">XXXXXX</td></tr>
+        </table>
+      </div>
+      <div class="explanation">
+        <p>How to fly the profile:</p>
+        <ol>
+          <li>After passing
+            steerpoint <span class="ip-steerpoint">TBD</span> set
+            current steerpoint
+            to <span class="target-steerpoint">TBD</span>.
+          </li>
+          <li>Maintain <span class="speed">TBD</span> kts throughout
+            profile.
+          </li>
+          <li>Align VRP (diamond) and PUP (circle) in HUD and fly towards PUP.</li>
+          <li>Immediately after passing PUP,
+            start a <span class="turn-g">TBD</span> G level turn to
+            the <span class="level-turn-direction">TBD</span> towards
+            OA2 (triangle). Heading will be
+            approximately <span class="pup-heading">TBD</span>.</li>
+          <li>Immediately roll wings level and start
+            a <span class="turn-g">TBD</span> G pull up to OA1
+            (triangle). Climb angle should
+            be <span class="climb-angle">TBD</span>.
+          </li>
+          <li>At OA1, overbank to put target indicator at top of HUD
+            and pull <span class="turn-g">TBD</span> Gs towards target.
+          </li>
+          <li>
+            When target is under FPM, roll wings level. Dive angle
+            should be <span class="dive-angle">TBD</span>.
+          </li>
+          <li>
+            Release weapons at or
+            before <span class="release-altitude">TBD</span>.
+          </li>
+          <li>
+            Perform escape manuever, release countermeasures, and
+            egress as briefed.
+          </li>
+        </ol>
+      </div>
+      <pre id="debug" />
+    </div>
   </body>
 </html>
