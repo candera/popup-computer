@@ -378,3 +378,9 @@
              :pull-down-turn-amount -90
              :ingress-altitude 200
              :vrp-to-pup-distance 1.0})
+
+(defn curve-to
+  [radius p11 p12 p21 p22]
+  (let [c1 (->> p11 (pc/scale -1) (pc/vector-add p12) pc/normalize (pc/scale radius))
+        c2 (->> p22 (pc/scale -1) (pc/vector-add p21) pc/normalize (pc/scale radius))]
+   (str "C" (pc/x c1) "," (pc/y c1) "," (pc/x c2) "," (pc/y c2) "," (pc/x p12) "," (pc/y p12))))

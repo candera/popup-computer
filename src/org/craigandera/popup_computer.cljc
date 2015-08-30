@@ -146,7 +146,6 @@
     (proportion mach low-mach high-mach
                 low-radius high-radius)))
 
-
 (defn kts->fts
   "Convert knots to feet/sec"
   [v]
@@ -350,7 +349,7 @@
                                     :r 1.0}
                                    turn-radius)
         pup-heading-recip    (reciprocal (- heading-to-pull-down pop-up-turn-amount))
-        pup                  (turn climb
+        pup                  (turn pull-up
                                    {:theta (reciprocal heading-to-pull-down)
                                     :phi 0
                                     :r 1.0}
@@ -374,7 +373,8 @@
      :pull-up       pull-up
      :pup-heading   (mod (reciprocal pup-heading-recip) 360)
      :pup           pup
-     :vrp           vrp}))
+     :vrp           vrp
+     :target        {:x 0 :y 0 :z 0}}))
 
 (defn distance
   "Distance between two vectors"

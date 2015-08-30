@@ -1,5 +1,7 @@
 (ns org.craigandera.popup-computer.main
-  (:require [org.craigandera.popup-computer :as pc]))
+  (:require [org.craigandera.popup-computer :as pc]
+            [hiccups.runtime :as hiccupsrt])
+  (:require-macros [hiccups.core :as hiccups :refer [html]]))
 
 (defn hello [] (.debug js/console "ohai there"))
 
@@ -80,6 +82,98 @@
                     (= "right"))
                 1 -1)))))
 
+(defn rmove-to
+  [x y]
+  (str "m " x "," y))
+
+(defn rline-to
+  [x y]
+  (str "l " x "," y))
+
+(defn move-to
+  [p]
+  (str "M " (pc/x p) "," (pc/y p)))
+
+(defn line-to
+  [p]
+  (str "L " (pc/x p) "," (pc/y p)))
+
+(defn close
+  []
+  "z")
+
+(defn path-string
+  [& commands]
+  (->> commands
+    (interpose " ")
+    (apply str)))
+
+(defn circle
+  [p radius attrs]
+  [:circle (merge {:cx (pc/x p)
+                   :cy (pc/y p)
+                   :r radius}
+                  attrs)])
+
+(defn diamond
+  [p size attrs]
+  (let [offset (/ size 2)]
+    [:path (merge {:d (path-string (move-to p)
+                                   (rmove-to 0 offset)
+                                   (rline-to offset (- offset))
+                                   (rline-to (- offset) (- offset))
+                                   (rline-to (- offset) offset)
+                                   (close))}
+                  attrs)]))
+
+(defn square
+  [p size attrs]
+  [:path (merge {:d (path-string (move-to p)
+                                 (rmove-to (/ size 2) (/ size 2))
+                                 (rline-to 0 (- size))
+                                 (rline-to (- size) 0)
+                                 (rline-to 0 size)
+                                 (close))}
+                attrs)])
+
+(defn triangle
+  [p width height attrs]
+  [:path (merge {:d (path-string (move-to p)
+                                 (rmove-to 0 (/ height 2))
+                                 (rline-to (/ width 2) (- height))
+                                 (rline-to (- width) 0)
+                                 (close))}
+                attrs)])
+
+(defn text
+  [p t attrs]
+  [:text (merge {:x (pc/x p)
+                 :y (pc/y p)}
+                attrs)
+   t])
+
+(let [counter (atom 0)]
+  (defn unique-id
+    [prefix]
+    (str prefix (swap! counter inc))))
+
+(defn curve-to
+  [p11 p12 p21 p22]
+  (let [mag  (* (pc/distance p12 p21) 0.5)
+        c1 (->> p11
+             (pc/scale -1)
+             (pc/vector-add p12)
+             pc/normalize
+             (pc/scale mag)
+             (pc/vector-add p12))
+        c2 (->> p22
+             (pc/scale -1)
+             (pc/vector-add p21)
+             pc/normalize
+             (pc/scale mag)
+             (pc/vector-add p21))]
+    (str "C" (pc/x c1) "," (pc/y c1) "," (pc/x c2) "," (pc/y c2) "," (pc/x p21) "," (pc/y p21))))
+
 (defn ^:export compute
   [e]
   (.debug js/console "compute")
@@ -138,6 +232,83 @@
              "release-altitude"     (:release-altitude input)}
             elem (by-class class)]
       (set-inner-html elem content))
+
+    ;; Draw plan path
+    ;; VRP, PUP, climb, pull-down, roll-out, release, target
+    (let [plan            (by-id "profile-plan")
+          coordinates     [:vrp :pup :pull-up :climb :pull-down :roll-out :release :target]
+          xs              (mapv #(-> output % pc/x) coordinates)
+          ys              (mapv #(-> output % pc/y) coordinates)
+          max-x           (apply max xs)
+          min-x           (apply min xs)
+          max-y           (apply max ys)
+          min-y           (apply min ys)
+          width           (- max-x min-x)
+          height          (- max-y min-y)
+          bounding-square (if (< width height)
+                            [[min-x (+ width min-x)]
+                             [min-y (+ width min-y)]]
+                            [[min-x (+ height min-y)
+                              min-y (+ height min-y)]])
+          size            (* 1.2 (max width height))
+          offset          (* size 0.10)
+          px-per-ft       (/ (-> plan .-width .-baseVal .-value)
+                             size)
+          ;; translate       (doto (.createSVGTransform plan
+          ;;                                            SVGTransform/SVG_TRANSFORM_TRANSLATE)
+          ;;                   (.setTranslate offset offset))
+          ;; scale           (doto (.createSVGTransform plan
+          ;;                                            SVGTransform/SVG_TRANSFORM_SCALE)
+          ;;                   (.setScale px-per-ft px-per-ft))
+          ;; transform       (-> plan .-transform -.baseVal)
+          ]
+      ;; (.clear transform)
+      ;; (.appendItem transform scale)
+      ;; (.appendItem transform translate)
+      ;; (remove-children plan)
+      ;; (add-child plan (let [rect (.createSVGRect plan)]
+      ;;                   (set! (.-width rect) 100)
+      ;;                   (set! (.-height rect) 100)
+      ;;                   rect))
+      ;; TODO: Do something more programmatic than this
+      (let [{:keys [vrp pup pull-up climb pull-down
+                    roll-out release target turn-radius]}
+            output
+            transform (str "scale(" px-per-ft "," (- px-per-ft) ")"
+                           " translate(" (+ min-x offset) "," (- 0 max-y offset) ")")
+            stroke-width (/ 1.5  px-per-ft)
+            marker-attrs {:stroke-width stroke-width
+                          :style "stroke:#00bb00; fill:white; fill-opacity:0"}
+            circle-attrs {:stroke-width stroke-width
+                          :style "stroke:black; fill:red"}]
+        (set-inner-html plan
+                        (html [:g {:transform transform}
+                               [:path {:style "stroke:#660000; fill:none;"
+                                       :stroke-width stroke-width
+                                       :d (path-string (move-to vrp)
+                                                       (line-to pup)
+                                                       (curve-to vrp pup pull-up climb)
+                                                       (line-to climb)
+                                                       (line-to pull-down)
+                                                       (curve-to climb pull-down roll-out release)
+                                                       (line-to release)
+                                                       (line-to target))}]
+                               [:g [:title "VRP"]
+                                (diamond vrp 800 marker-attrs)]
+                               [:g [:title "PUP - start level turn here"]
+                                (circle pup 400 marker-attrs)]
+                               [:g [:title "Pull-up - Start pull-up here"]
+                                (circle pull-up 200 circle-attrs)]
+                               [:g [:title "Climb - Orient on pull-down (OA1) marker"]
+                                (circle climb 200 circle-attrs)]
+                               [:g [:title "Pull-down point (OA1) - Roll and pull to target"]
+                                (triangle pull-down 500 1000 marker-attrs)]
+                               [:g [:title "Roll-out wings level on attack heading"]
+                                (circle roll-out 200 circle-attrs)]
+                               [:g [:title "Weapons release"]
+                                (circle release 200 circle-attrs)]
+                               [:g [:title "Target"]
+                                (square target 600 marker-attrs)]]))))
 
     (set-inner-text "debug" (stringify {:inputs input
                                         :output output}))))

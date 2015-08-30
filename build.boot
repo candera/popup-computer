@@ -17,6 +17,7 @@
 
                  ;; ClojureScript
                  [org.clojure/clojurescript "1.7.48"]
+                 [hiccups "0.3.0"]
                  ;;[com.lucasbradstreet/instaparse-cljs "1.4.0.0-SNAPSHOT"]
                  ])
 
