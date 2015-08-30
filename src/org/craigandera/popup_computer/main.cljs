@@ -209,6 +209,8 @@
     (let [{:keys [theta r z]} (pc/->vec :cyl (:pull-down output))
           brg (.toFixed (mod theta 360) 1)
           rng (round r 1)]
+      (set-inner-html (by-id "oa1-stpt") target-steerpoint)
+      (set-inner-html (by-id "oa2-stpt") target-steerpoint)
       (set-inner-html (by-id "oa1-brg") brg)
       (set-inner-html (by-id "oa2-brg") brg)
       (set-inner-html (by-id "oa1-rng") rng)
@@ -235,47 +237,41 @@
 
     ;; Draw plan path
     ;; VRP, PUP, climb, pull-down, roll-out, release, target
-    (let [plan            (by-id "profile-plan")
-          coordinates     [:vrp :pup :pull-up :climb :pull-down :roll-out :release :target]
-          xs              (mapv #(-> output % pc/x) coordinates)
-          ys              (mapv #(-> output % pc/y) coordinates)
-          max-x           (apply max xs)
-          min-x           (apply min xs)
-          max-y           (apply max ys)
-          min-y           (apply min ys)
-          width           (- max-x min-x)
-          height          (- max-y min-y)
-          bounding-square (if (< width height)
-                            [[min-x (+ width min-x)]
-                             [min-y (+ width min-y)]]
-                            [[min-x (+ height min-y)
-                              min-y (+ height min-y)]])
-          size            (* 1.2 (max width height))
-          offset          (* size 0.10)
-          px-per-ft       (/ (-> plan .-width .-baseVal .-value)
-                             size)
-          ;; translate       (doto (.createSVGTransform plan
-          ;;                                            SVGTransform/SVG_TRANSFORM_TRANSLATE)
-          ;;                   (.setTranslate offset offset))
-          ;; scale           (doto (.createSVGTransform plan
-          ;;                                            SVGTransform/SVG_TRANSFORM_SCALE)
-          ;;                   (.setScale px-per-ft px-per-ft))
-          ;; transform       (-> plan .-transform -.baseVal)
-          ]
-      ;; (.clear transform)
-      ;; (.appendItem transform scale)
-      ;; (.appendItem transform translate)
-      ;; (remove-children plan)
-      ;; (add-child plan (let [rect (.createSVGRect plan)]
-      ;;                   (set! (.-width rect) 100)
-      ;;                   (set! (.-height rect) 100)
-      ;;                   rect))
-      ;; TODO: Do something more programmatic than this
+    (let [plan                  (by-id "profile-plan")
+          coordinates           [:vrp :pup :pull-up :climb :pull-down :roll-out :release :target]
+          xs                    (mapv #(-> output % pc/x) coordinates)
+          ys                    (mapv #(-> output % pc/y) coordinates)
+          max-x                 (apply max xs)
+          min-x                 (apply min xs)
+          max-y                 (apply max ys)
+          min-y                 (apply min ys)
+          width                 (- max-x min-x)
+          height                (- max-y min-y)
+          padding               (* 0.05 (max width height))
+          max-x                 (+ max-x padding)
+          min-x                 (- min-x padding)
+          max-y                 (+ max-y padding)
+          min-y                 (- min-y padding)
+          width                 (- max-x min-x)
+          height                (- max-y min-y)
+          aspect                (/ width height)
+          svg-width             (-> plan .getBoundingClientRect .-width)
+          svg-height            (-> plan .getBoundingClientRect .-height)
+          svg-aspect            (/ svg-width svg-height)
+          px-per-ft             (if (< svg-aspect aspect)
+                                  (/ svg-width (* width 1.2))
+                                  (/ svg-height (* height 1.2)))
+          [cen-x cen-y]         [(/ (+ max-x min-x) 2.0)
+                                 (/ (+ max-y min-y) 2.0)]
+          [svg-cen-x svg-cen-y] [(/ (/ svg-width 2.0) px-per-ft)
+                                 (/ (/ svg-height 2.0) (- px-per-ft))]
+          [offset-x offset-y]   [(- svg-cen-x cen-x)
+                                 (- svg-cen-y cen-y)]]
       (let [{:keys [vrp pup pull-up climb pull-down
                     roll-out release target turn-radius]}
             output
             transform (str "scale(" px-per-ft "," (- px-per-ft) ")"
-                           " translate(" (+ min-x offset) "," (- 0 max-y offset) ")")
+                           " translate(" offset-x "," offset-y ")")
             stroke-width (/ 1.5  px-per-ft)
             marker-attrs {:stroke-width stroke-width
                           :style "stroke:#00bb00; fill:white; fill-opacity:0"}

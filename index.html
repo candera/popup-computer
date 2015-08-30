@@ -5,8 +5,8 @@
   </head>
   <body>
     <h1>1st VFW Popup Attack Calculator (Beta)</h1>
-    <img width="300" src="diagram.png" />
-    <table>
+    <img src="diagram.png" id="diagram" />
+    <table id="inputs">
       <tr>
         <td><img src="help.png" title="The steerpoint where the target is located." /></td>
         <td><label>Target steerpoint:</label></td>
@@ -158,8 +158,7 @@
     </table>
 
     <svg id="profile-plan" xmlns="http://www.w3.org/2000/svg"
-         xmlns:xlink="http://www.w3.org/1999/xlink"
-         width="500" height="500">
+         xmlns:xlink="http://www.w3.org/1999/xlink">
       <path d="M50,50 L100,100" style="stroke:#660000; fill:none;"/>
     </svg>
 
@@ -206,7 +205,7 @@
           <li>After passing
             steerpoint <span class="ip-steerpoint">TBD</span> set
             current steerpoint
-            to <span class="target-steerpoint">TBD</span>.41
+            to <span class="target-steerpoint">TBD</span>.
           </li>
           <li>Maintain <span class="speed">TBD</span> kts throughout
             profile.
@@ -215,9 +214,11 @@
           <li>Immediately after passing PUP,
             start a <span class="turn-g">TBD</span> G level turn to
             the <span class="level-turn-direction">TBD</span> towards
-            OA2 (triangle). Heading will be
-            approximately <span class="pup-heading">TBD</span>.</li>
-          <li>Immediately roll wings level and start
+            OA2 (triangle).
+          </li>
+          <li>When aligned on OA2 (heading will be
+            approximately <span class="pup-heading">TBD</span>)
+            immediately roll wings level and start
             a <span class="turn-g">TBD</span> G pull up to OA1
             (triangle). Climb angle should
             be <span class="climb-angle">TBD</span>.
@@ -231,7 +232,7 @@
           </li>
           <li>
             Release weapons at or
-            before <span class="release-altitude">TBD</span>.
+            before <span class="release-altitude">TBD</span> ft altitude.
           </li>
           <li>
             Perform escape manuever, release countermeasures, and

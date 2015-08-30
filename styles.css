@@ -10,3 +10,25 @@
     color: yellow;
 }
 
+#diagram {
+    width: 300px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#inputs {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#profile-plan {
+    display: inline-block;
+    vertical-align: middle;
+    border: solid 1px black;
+    width: 400px;
+    height: 400px;
+}
+
+#debug {
+    display: none;
+}
