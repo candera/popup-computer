@@ -11,8 +11,7 @@
         <td><img src="help.png" title="The steerpoint where the target is located." /></td>
         <td><label>Target steerpoint:</label></td>
         <td>
-          <input id="target-steerpoint" type="text" value="3"
-                   oninput="org.craigandera.popup_computer.main.compute();"/>
+          <input id="target-steerpoint" type="text" value="3" class="recompute arrowable" data-arrow-amount="1" />
         </td>
         <td></td>
       </tr>
@@ -20,8 +19,7 @@
         <td><img src="help.png" title="The altitude of the target above sea level." /></td>
         <td><label>Target altitude:</label></td>
         <td>
-          <input id="target-altitude" type="text" value="0"
-                   oninput="org.craigandera.popup_computer.main.compute();"/>
+          <input id="target-altitude" type="text" value="0" class="recompute arrowable" data-arrow-amount="50" />
         </td>
         <td>feet MSL</td>
       </tr>
@@ -29,8 +27,7 @@
         <td><img src="help.png" title="The altitude at which the run in to the target will be made. Assumes that the ground at ingress is the same altitude as the target." /></td>
         <td><label>Ingress altitude:</label></td>
         <td>
-          <input id="ingress-altitude" type="text" value="200"
-                   oninput="org.craigandera.popup_computer.main.compute();"/>
+          <input id="ingress-altitude" type="text" value="200" class="recompute arrowable" data-arrow-amount="50" />
         </td>
         <td>feet AGL</td>
       </tr>
@@ -38,8 +35,7 @@
         <td><img src="help.png" title="The speed at which the attack profile will be run." /></td>
         <td><label>Speed:</label></td>
         <td>
-          <input id="speed" type="text" value="500"
-                 oninput="org.craigandera.popup_computer.main.compute();"/>
+          <input id="speed" type="text" value="500" class="recompute arrowable" data-arrow-amount="25" />
         </td>
         <td>kts</td>
       </tr>
@@ -55,8 +51,7 @@
         <td><img src="help.png" title="The turn G at which all turns in the profile will be made." /></td>
         <td><label>Turn G:</label></td>
         <td>
-          <input id="turn-g" type="text" value="3.0"
-                 oninput="org.craigandera.popup_computer.main.compute();"/>
+          <input id="turn-g" type="text" value="3.0" class="recompute arrowable" data-arrow-amount="0.5" />
         </td>
         <td></td>
       </tr>
@@ -72,8 +67,7 @@
         <td><img src="help.png" title="The heading at which the aircraft will roll out before release." /></td>
         <td><label>Attack heading:</label></td>
         <td>
-          <input id="attack-heading" type="text" value="270"
-                 oninput="org.craigandera.popup_computer.main.compute();"/>
+          <input id="attack-heading" type="text" value="270" class="recompute arrowable" data-arrow-amount="5" />
         </td>
         <td>degrees</td>
       </tr>
@@ -81,8 +75,7 @@
         <td><img src="help.png" title="The desired angle at which to climb to the pull-down point." /></td>
         <td><label>Climb angle:</label></td>
         <td>
-          <input id="climb-angle" type="text" value="25"
-                 oninput="org.craigandera.popup_computer.main.compute();"/>
+          <input id="climb-angle" type="text" value="25" class="recompute arrowable" data-arrow-amount="5" />
         </td>
         <td>degrees</td>
       </tr>
@@ -90,7 +83,7 @@
         <td><img src="help.png" title="The angle at which the diving attack will be made. Currently assumes that the FPM will be pointed directly at the target - subtract a few degrees from this to get a bit of aim-off distance." /></td>
         <td><label>Dive angle:</label></td>
         <td>
-          <input oninput="org.craigandera.popup_computer.main.compute();"
+          <input class="recompute arrowable" data-arrow-amount="5"
                  id="dive-angle" type="text" value="20" />
         </td>
         <td>degrees</td>
@@ -99,7 +92,7 @@
         <td><img src="help.png" title="Distance between the VRP and the PUP." /></td>
         <td><label>VRP to PUP distance:</label></td>
         <td>
-          <input oninput="org.craigandera.popup_computer.main.compute();"
+          <input class="recompute arrowable" data-arrow-amount="0.25"
                  id="vrp-to-pup-distance" type="text" value="1.0" />
         </td>
         <td>nm</td>
@@ -109,13 +102,13 @@
         <td><label>Heading change at pop-up point:</label></td>
         <td>
           <input
-             oninput="org.craigandera.popup_computer.main.compute();"
+             class="recompute arrowable" data-arrow-amount="5"
              id="pop-up-turn-amount" type="text" value="45" />
         </td>
         <td>degrees</td>
         <td>
           <select id="pop-up-turn-direction"
-                  onchange="org.craigandera.popup_computer.main.compute();">
+                  class="recompute">
             <option value="right">right</option>
             <option value="left">left</option>
           </selectd>
@@ -126,13 +119,13 @@
         <td><label>Heading change during pull down:</label></td>
         <td>
           <input
-             oninput="org.craigandera.popup_computer.main.compute();"
+             class="recompute arrowable" data-arrow-amount="5"
              id="pull-down-turn-amount" type="text" value="90" />
         </td>
         <td>degrees</td>
         <td>
           <select id="pull-down-turn-direction"
-                  onchange="org.craigandera.popup_computer.main.compute();">
+                  class="recompute">
             <option value="left">left</option>
             <option value="right">right</option>
           </select>
@@ -142,7 +135,7 @@
         <td><img src="help.png" title="The altitude at which weapons release will happen." /></td>
         <td><label>Release altitude:</label></td>
         <td>
-          <input oninput="org.craigandera.popup_computer.main.compute();"
+          <input class="recompute arrowable" data-arrow-amount="100"
                  id="release-altitude" type="text" value="2000" />
         </td>
         <td>feet AGL</td>
@@ -151,7 +144,7 @@
         <td><img src="help.png" title="How long to spend aligning after rolling out from the pull-down." /></td>
         <td><label>Tracking time:</label></td>
         <td><input
-               oninput="org.craigandera.popup_computer.main.compute();"
+               class="recompute arrowable" data-arrow-amount="0.1"
                id="tracking-time" type="text" value="2.0"/></td>
         <td>seconds</td>
       </tr>
@@ -159,7 +152,6 @@
 
     <svg id="profile-plan" xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink">
-      <path d="M50,50 L100,100" style="stroke:#660000; fill:none;"/>
     </svg>
 
     <div id="output">

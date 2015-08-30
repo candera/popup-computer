@@ -5,3 +5,14 @@ A computed popup attack profile generator for use with Falcon BMS.
 ** How to use
 
 Go [[https://dl.dropboxusercontent.com/u/451150/popup-computer/index.html][here]] and follow the directions.
+
+** Why shouldn't I just use [[http://www.weapondeliveryplanner.nl/][Weapon Delivery Planner]]?
+
+You should: it's awesome. I wrote this because I got interested in the
+problem of computed popup attacks. Right now my tool differs only very
+slightly from the attacks you can plan in WDP, and WDP offers *much*
+more capability.
+
+I may, in time, add capabilities beyond what WDP offers, but that's
+not really the case right now. That said, I'm interested in hearing
+your feedback if you happen to try my version.

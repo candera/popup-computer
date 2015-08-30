@@ -309,5 +309,28 @@
     (set-inner-text "debug" (stringify {:inputs input
                                         :output output}))))
 
+(def keycode
+  {37 :left
+   38 :up
+   39 :right
+   40 :down})
+
+(defn handle-arrowable
+  [e]
+  (let [code (-> e (or (.-event js/window)) .-keyCode keycode)
+        amount (-> e .-target (.getAttribute "data-arrow-amount") js/Number)
+        current (-> e .-target .-value js/Number)]
+    (when (#{:up :down} code)
+      (set! (-> e .-target .-value)
+            (+ current (if (= :up code)
+                         amount
+                         (- amount))))
+      (compute (.-target e)))))
+
 (set! (.-onload js/window)
-      compute)
+      (fn [e]
+        (doseq [elem (by-class "recompute")]
+          (set! (.-oninput elem) compute))
+        (doseq [elem (by-class "arrowable")]
+          (set! (.-onkeydown elem) handle-arrowable))
+        (compute e)))
