@@ -1,0 +1,7 @@
+* popup-computer
+
+A computed popup attack profile generator for use with Falcon BMS.
+
+** How to use
+
+Go [[https://dl.dropboxusercontent.com/u/451150/popup-computer/index.html][here]] and follow the directions.

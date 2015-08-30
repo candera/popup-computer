@@ -2,7 +2,7 @@
 
 rm -rf target/
 boot cljs --optimizations whitespace
-DEPLOY_DIR=~/Dropbox/popup-computer/
+DEPLOY_DIR=~/Dropbox/Public/popup-computer/
 mkdir -p $DEPLOY_DIR/target
 cp index.html styles.css diagram.png help.png $DEPLOY_DIR
 cp target/main.js target/main.js.map $DEPLOY_DIR/target
