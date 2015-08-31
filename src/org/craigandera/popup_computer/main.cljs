@@ -320,12 +320,16 @@
   [e]
   (let [code (-> e (or (.-event js/window)) .-keyCode keycode)
         amount (-> e .-target (.getAttribute "data-arrow-amount") js/Number)
-        current (-> e .-target .-value js/Number)]
+        current (-> e .-target .-value js/Number)
+        mod-value (some-> e .-target (.getAttribute "data-mod-value") js/Number)]
     (when (#{:up :down} code)
       (set! (-> e .-target .-value)
-            (+ current (if (= :up code)
-                         amount
-                         (- amount)))))))
+            (let [new-val (+ current (if (= :up code)
+                                       amount
+                                       (- amount)))]
+              (if mod-value
+                (mod new-val mod-value)
+                new-val))))))
 
 (defn validate
   [e]
