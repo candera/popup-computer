@@ -1,6 +1,7 @@
 (ns org.craigandera.popup-computer.main
   (:require [org.craigandera.popup-computer :as pc]
-            [hiccups.runtime :as hiccupsrt])
+            [hiccups.runtime :as hiccupsrt]
+            [goog.dom.classes :as classes])
   (:require-macros [hiccups.core :as hiccups :refer [html]]))
 
 (defn hello [] (.debug js/console "ohai there"))
@@ -324,13 +325,27 @@
       (set! (-> e .-target .-value)
             (+ current (if (= :up code)
                          amount
-                         (- amount))))
-      (compute (.-target e)))))
+                         (- amount)))))))
+
+(defn validate
+  [e]
+  (let [min-valid (some-> e (.getAttribute "data-min-valid") js/Number)
+        max-valid (some-> e (.getAttribute "data-max-valid") js/Number)
+        current (-> e .-value js/Number)]
+    (when (and min-valid max-valid)
+      (classes/enable e "invalid" (not (<= min-valid current max-valid))))))
 
 (set! (.-onload js/window)
       (fn [e]
         (doseq [elem (by-class "recompute")]
-          (set! (.-oninput elem) compute))
+          (set! (.-oninput elem)
+                (fn [e]
+                  (validate (.-target e))
+                  (compute (.-target e)))))
         (doseq [elem (by-class "arrowable")]
-          (set! (.-onkeydown elem) handle-arrowable))
+          (set! (.-onkeydown elem)
+                (fn [e]
+                  (handle-arrowable e)
+                  (validate (.-target e))
+                  (compute (.-target e)))))
         (compute e)))

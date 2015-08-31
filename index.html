@@ -11,7 +11,8 @@
         <td><img src="help.png" title="The steerpoint where the target is located." /></td>
         <td><label>Target steerpoint:</label></td>
         <td>
-          <input id="target-steerpoint" type="text" value="3" class="recompute arrowable" data-arrow-amount="1" />
+          <input id="target-steerpoint" type="text" value="3" class="recompute arrowable" data-arrow-amount="1"
+                 data-min-valid="1" data-max-valid="99" />
         </td>
         <td></td>
       </tr>
@@ -19,7 +20,8 @@
         <td><img src="help.png" title="The altitude of the target above sea level." /></td>
         <td><label>Target altitude:</label></td>
         <td>
-          <input id="target-altitude" type="text" value="0" class="recompute arrowable" data-arrow-amount="50" />
+          <input id="target-altitude" type="text" value="0" class="recompute arrowable" data-arrow-amount="50"
+                 data-min-valid="0" data-max-valid="20000" />
         </td>
         <td>feet MSL</td>
       </tr>
@@ -27,7 +29,8 @@
         <td><img src="help.png" title="The altitude at which the run in to the target will be made. Assumes that the ground at ingress is the same altitude as the target." /></td>
         <td><label>Ingress altitude:</label></td>
         <td>
-          <input id="ingress-altitude" type="text" value="200" class="recompute arrowable" data-arrow-amount="50" />
+          <input id="ingress-altitude" type="text" value="200" class="recompute arrowable" data-arrow-amount="50"
+                 data-min-valid="100" data-max-valid="20000" />
         </td>
         <td>feet AGL</td>
       </tr>
@@ -35,7 +38,8 @@
         <td><img src="help.png" title="The speed at which the attack profile will be run." /></td>
         <td><label>Speed:</label></td>
         <td>
-          <input id="speed" type="text" value="500" class="recompute arrowable" data-arrow-amount="25" />
+          <input id="speed" type="text" value="500" class="recompute arrowable" data-arrow-amount="25"
+                 data-min-valid="250" data-max-valid="700" />
         </td>
         <td>kts</td>
       </tr>
@@ -51,7 +55,8 @@
         <td><img src="help.png" title="The turn G at which all turns in the profile will be made." /></td>
         <td><label>Turn G:</label></td>
         <td>
-          <input id="turn-g" type="text" value="3.0" class="recompute arrowable" data-arrow-amount="0.5" />
+          <input id="turn-g" type="text" value="3.0" class="recompute arrowable" data-arrow-amount="0.5"
+                 data-min-valid="2.0" data-max-valid="9.0" />
         </td>
         <td></td>
       </tr>
@@ -67,7 +72,8 @@
         <td><img src="help.png" title="The heading at which the aircraft will roll out before release." /></td>
         <td><label>Attack heading:</label></td>
         <td>
-          <input id="attack-heading" type="text" value="270" class="recompute arrowable" data-arrow-amount="5" />
+          <input id="attack-heading" type="text" value="270" class="recompute arrowable" data-arrow-amount="5"
+                 data-min-valid="0" data-max-valid="360" data-mod-value="360" />
         </td>
         <td>degrees</td>
       </tr>
@@ -75,7 +81,8 @@
         <td><img src="help.png" title="The desired angle at which to climb to the pull-down point." /></td>
         <td><label>Climb angle:</label></td>
         <td>
-          <input id="climb-angle" type="text" value="25" class="recompute arrowable" data-arrow-amount="5" />
+          <input id="climb-angle" type="text" value="25" class="recompute arrowable" data-arrow-amount="5"
+                 data-min-valid="10" data-max-valid="60" />
         </td>
         <td>degrees</td>
       </tr>
@@ -84,7 +91,8 @@
         <td><label>Dive angle:</label></td>
         <td>
           <input class="recompute arrowable" data-arrow-amount="5"
-                 id="dive-angle" type="text" value="20" />
+                 id="dive-angle" type="text" value="20"
+                 data-min-valid="10" data-max-valid="60" />
         </td>
         <td>degrees</td>
       </tr>
@@ -93,7 +101,8 @@
         <td><label>VRP to PUP distance:</label></td>
         <td>
           <input class="recompute arrowable" data-arrow-amount="0.25"
-                 id="vrp-to-pup-distance" type="text" value="1.0" />
+                 id="vrp-to-pup-distance" type="text" value="1.0"
+                 data-min-valid="0.25" data-max-valid="20" />
         </td>
         <td>nm</td>
       </tr>
@@ -103,7 +112,9 @@
         <td>
           <input
              class="recompute arrowable" data-arrow-amount="5"
-             id="pop-up-turn-amount" type="text" value="45" />
+             id="pop-up-turn-amount" type="text" value="45"
+             data-min-valid="0" data-max-valid="180"
+             data-toggle-negative="pop-up-turn-direction" />
         </td>
         <td>degrees</td>
         <td>
@@ -120,7 +131,9 @@
         <td>
           <input
              class="recompute arrowable" data-arrow-amount="5"
-             id="pull-down-turn-amount" type="text" value="90" />
+             id="pull-down-turn-amount" type="text" value="90"
+             data-min-valid="0" data-max-valid="180"
+             data-toggle-negative="pull-down-turn-direction"/>
         </td>
         <td>degrees</td>
         <td>
@@ -136,7 +149,8 @@
         <td><label>Release altitude:</label></td>
         <td>
           <input class="recompute arrowable" data-arrow-amount="100"
-                 id="release-altitude" type="text" value="2000" />
+                 id="release-altitude" type="text" value="2000"
+                 data-min-valid="1500" data-max-valid="20000" />
         </td>
         <td>feet AGL</td>
       </tr>
@@ -145,7 +159,8 @@
         <td><label>Tracking time:</label></td>
         <td><input
                class="recompute arrowable" data-arrow-amount="0.1"
-               id="tracking-time" type="text" value="2.0"/></td>
+               id="tracking-time" type="text" value="2.0"
+               data-min-valid="0.5" data-max-valid="5.0" /></td>
         <td>seconds</td>
       </tr>
     </table>
