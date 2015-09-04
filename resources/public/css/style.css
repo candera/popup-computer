@@ -1,3 +1,4 @@
+/* some style */
 .ufc-screen {
     background-color: black;
     color: yellow;
@@ -47,4 +48,5 @@
 .lock-trigger.locked {
     background-image: url("locked.png");
 }
+
 
