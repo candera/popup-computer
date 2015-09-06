@@ -38,7 +38,7 @@
         <td><img src="help.png" title="The speed at which the attack profile will be run." /></td>
         <td><label>Speed:</label></td>
         <td>
-          <input id="speed" type="text" value="500" class="recompute arrowable" data-arrow-amount="25"
+          <input id="speed" type="text" value="550" class="recompute arrowable" data-arrow-amount="25"
                  data-min-valid="250" data-max-valid="700" />
         </td>
         <td>kts</td>
@@ -55,7 +55,7 @@
         <td><img src="help.png" title="The turn G at which all turns in the profile will be made." /></td>
         <td><label>Turn G:</label></td>
         <td>
-          <input id="turn-g" type="text" value="3.0" class="recompute arrowable" data-arrow-amount="0.5"
+          <input id="turn-g" type="text" value="4.0" class="recompute arrowable" data-arrow-amount="0.5"
                  data-min-valid="2.0" data-max-valid="9.0" />
         </td>
         <td></td>
@@ -101,7 +101,7 @@
         <td><label>VRP to PUP distance:</label></td>
         <td>
           <input class="recompute arrowable" data-arrow-amount="0.25"
-                 id="vrp-to-pup-distance" type="text" value="1.0"
+                 id="vrp-to-pup-distance" type="text" value="2.0"
                  data-min-valid="0.25" data-max-valid="20" />
         </td>
         <td>nm</td>
@@ -112,7 +112,7 @@
         <td>
           <input
              class="recompute arrowable" data-arrow-amount="5"
-             id="pop-up-turn-amount" type="text" value="45"
+             id="pop-up-turn-amount" type="text" value="0"
              data-min-valid="0" data-max-valid="180"
              data-toggle-negative="pop-up-turn-direction" />
         </td>
@@ -149,7 +149,7 @@
         <td><label>Release altitude:</label></td>
         <td>
           <input class="recompute arrowable" data-arrow-amount="100"
-                 id="release-altitude" type="text" value="2000"
+                 id="release-altitude" type="text" value="5000"
                  data-min-valid="1500" data-max-valid="20000" />
         </td>
         <td>feet AGL</td>
@@ -159,7 +159,7 @@
         <td><label>Tracking time:</label></td>
         <td><input
                class="recompute arrowable" data-arrow-amount="0.1"
-               id="tracking-time" type="text" value="2.0"
+               id="tracking-time" type="text" value="3.0"
                data-min-valid="0.5" data-max-valid="5.0" /></td>
         <td>seconds</td>
       </tr>
@@ -192,8 +192,8 @@
         <p class="heading">DEST OA1 <span class="steerpoint" id="oa1-stpt">X</span></p>
         <table>
           <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-          <tr><td>TBRG</td><td class="tbrg" id="oa1-brg">XX.X</td></tr>
           <tr><td>RNG</td><td class="rng" id="oa1-rng">XXXXXX</td></tr>
+          <tr><td>TBRG</td><td class="tbrg" id="oa1-brg">XX.X</td></tr>
           <tr><td>ELEV</td><td class="elev" id="oa1-elev">XXXXXX</td></tr>
         </table>
       </div>
@@ -201,8 +201,8 @@
         <p class="heading">DEST OA2 <span class="steerpoint" id="oa2-stpt">X</span></p>
         <table>
           <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-          <tr><td>TBRG</td><td class="tbrg" id="oa2-brg">XX.X</td></tr>
           <tr><td>RNG</td><td class="rng" id="oa2-rng">XXXXXX</td></tr>
+          <tr><td>TBRG</td><td class="tbrg" id="oa2-brg">XX.X</td></tr>
           <tr><td>ELEV</td><td class="elev" id="oa2-elev">XXXXXX</td></tr>
         </table>
       </div>
